@@ -1,0 +1,15 @@
+version: "3.4"
+
+services:
+  arduino:
+    image: tombenke/darduino
+    container_name: arduino
+    network_mode: "host"
+    environment:
+      - "DISPLAY=:0.0"
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix"
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+      - "${HOME}/topics:/topics"
+    command: "arduino"
+    privileged: true

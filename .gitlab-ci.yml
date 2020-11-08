@@ -1,0 +1,9 @@
+image: python:alpine
+pages:
+  script:
+  - mv _site public
+  artifacts:
+    paths:
+    - public
+  only:
+  - master

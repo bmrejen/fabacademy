@@ -1,0 +1,71 @@
+<p>Today we are making a programmator. This will allow us to program the AVR microchips we embed on our components.
+AVR microchips have some flash memory that can be reprogrammed <em>ISP</em> - in-system programming, while they are already being used.</p>
+
+<p>We will be following <a href="http://fab.cba.mit.edu/classes/863.16/doc/projects/ftsmin/index.html">this tutorial</a></p>
+
+<h2 id="material">Material</h2>
+<p>The PCB we are going to use is a <strong>SMB</strong>, i.e surface mount box, which means it is 1-sided.</p>
+
+<p>We can use material <strong>FR1 or FR4</strong> that we will cut with a CO2 laser cutter.</p>
+
+<p>The resistances we will solder on it have a Case-Code of <strong>1206</strong>, which means they are 0.12” * 0.06”.</p>
+
+<p>This is the smallest we can use in our lab. Anything smaller and it will be harder to make <strong>bridges</strong> over the circuit.</p>
+
+<p>We had the choice bteween <strong>FR1 and FR4</strong>
+FR4 is made of fiber-glass and a thin layer of copper. Fiber glass is not very elastic, so it doesn’t support drilling very well.
+Luckily, we will not be <strong>milling</strong>, but removing the copper with a cutting with a <strong>fiber cutter</strong> and cutting the PCB with a <strong>laser cutter</strong></p>
+
+<h2 id="soldering">Soldering</h2>
+<p>We are going to get the components and solder them one by one on the board. We use <em>leaded</em> solder, not unleaded, and we start from the center.</p>
+
+<p>We add lots of solder on the USB pins because the board is a bit thin.</p>
+
+<p>We put some reflow for the small parts. We use a Yihua 852D soldering iron.</p>
+
+<p><img src="/assets/images/05-16-soldered.png" alt="alt text" title="soldered" /></p>
+
+<h2 id="programming-the-microchip">Programming the microchip</h2>
+<ol>
+  <li>
+    <p>Connect the programmer to USB for power + to the Atmel ICE
+<img src="/assets/images/05-13-connect.png" alt="alt text" title="connect" /></p>
+  </li>
+  <li>
+    <p>Install the drivers and utils
+<code class="highlighter-rouge">sudo apt install avrdude gcc-avr avr-libc make</code></p>
+  </li>
+  <li>
+    <p>Download the <a href="http://fab.cba.mit.edu/classes/863.16/doc/projects/ftsmin/fts_firmware_bdm_v1.zip">firmware</a></p>
+  </li>
+  <li>
+    <p>Unzip it and launch <code class="highlighter-rouge">make &amp;&amp; make flash &amp;&amp; make fuses</code>
+This should flash the compiled HEX code on the memory</p>
+  </li>
+  <li>
+    <p>Disable the reset function
+<code class="highlighter-rouge">make rstdisbl</code></p>
+  </li>
+</ol>
+
+<h2 id="characterization-of-the-pcb">Characterization of the PCB</h2>
+<p>To see how the machine prints, we can print a tryout.
+<img src="/assets/images/05-12-pcb-characterization.png" alt="alt text" title="PCB characterization" /></p>
+
+<h2 id="vinyl-cutter">Vinyl cutter</h2>
+<p>For soft materials like clothes, it can be useful to print the circuit using a vinyl cutter from a roll of sticky copper.
+We used the Roland GS-24
+<img src="/assets/images/05-17-vinyl-machine.png" alt="alt text" title="vinyl machine" /></p>
+
+<p>The blade was dull, we had to remove it.
+<img src="/assets/images/05-18-removing-blade.png" alt="alt text" title="removing blade" /></p>
+
+<p>And replace it
+<img src="/assets/images/05-19-new-blade.png" alt="alt text" title="new blade" /></p>
+
+<p>We used a strength of 130 grams and a cutting speed of 10 cm / sec. The blade offset is the position of the blade on the vertical axis. We kept it at 0.25
+<img src="/assets/images/05-20-settings.png" alt="alt text" title="settings" /></p>
+
+<p>The end result was pretty bad.
+<img src="/assets/images/05-14-vinyl.png" alt="alt text" title="vinyl" /></p>
+

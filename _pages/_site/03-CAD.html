@@ -1,0 +1,107 @@
+<p>This week, we are making a laptop stand.</p>
+
+<p><img src="/assets/images/03-01-laptop-stand.PNG" alt="alt text" title="Laptop stand" /></p>
+
+<p><strong>Tools:</strong> We are going to use <em>Fusion 360</em> and export 3 sketches in DXF format to open with CorelDraw and print with a CO2 cutter.</p>
+
+<p>We will use <strong>User Parameters</strong> in both inches and millimeters, because we can.</p>
+
+<p><img src="/assets/images/03-02-user-parameters.PNG" alt="alt text" title="User parameters" /></p>
+
+<p>We start by creating a sketch for the left leg, and setting a few <strong>constraints</strong>, like a 22 degree angle and parallel lines.</p>
+
+<p><img src="/assets/images/03-03-leg-sketch.PNG" alt="alt text" title="Leg sketch" /></p>
+
+<p>After extrusion, we do a <strong>copy-paste</strong>. Since we didn’t do <strong>Paste New</strong>, changes made on one leg will be replicated on the other one.</p>
+
+<p><img src="/assets/images/03-04-copy-paste.PNG" alt="alt text" title="Copy Paste" /></p>
+
+<p>We will now join them together with a <strong>Joint</strong>, which allows us to fix their width.</p>
+
+<p><img src="/assets/images/03-05-join.PNG" alt="alt text" title="Join" /></p>
+
+<p>And we <strong>project</strong> the top left side on the top right side.</p>
+
+<p><img src="/assets/images/03-06-project.PNG" alt="alt text" title="Projection" /></p>
+
+<p>We now <strong>create a sketch</strong> on the same plan as the top sides.</p>
+
+<p><img src="/assets/images/03-07-top.PNG" alt="alt text" title="Top sketch" /></p>
+
+<p>We now create a tab to make a hole in the sketch and we create two <strong>construction lines</strong> that will serve as mirrors.</p>
+
+<p><img src="/assets/images/03-08-tab.PNG" alt="alt text" title="Tab" /></p>
+
+<p>We can now <strong>mirror</strong> this tab across both construction lines to get 4 tabs.</p>
+
+<p><img src="/assets/images/03-09-all-tabs.PNG" alt="alt text" title="All tabs" /></p>
+
+<p>We now <strong>extrude</strong> this plan towards the bottom…</p>
+
+<p><img src="/assets/images/03-10-extrusion.PNG" alt="alt text" title="Extrusion" /></p>
+
+<p>…and we now have a conflict: two plans overlap</p>
+
+<p><img src="/assets/images/03-11-conflict.PNG" alt="alt text" title="Conflict" /></p>
+
+<p>So we do a <strong>combine</strong> by using one leg as a <strong>tool</strong> to <strong>cut</strong> the top body.
+We choose <em>keep tools</em> so the legs stay.</p>
+
+<p><img src="/assets/images/03-12-combine.PNG" alt="alt text" title="Combine" /></p>
+
+<p>And the parts overlapping have now been cut.</p>
+
+<p><img src="/assets/images/03-13-combine-result.PNG" alt="alt text" title="Combine result" /></p>
+
+<p>And we <strong>fillet</strong> some edges</p>
+
+<p><img src="/assets/images/03-14-fillet.PNG" alt="alt text" title="Fillet" /></p>
+
+<p>Now we create a bottom support.
+We create a <strong>New Component</strong>, and create an <strong>offset pane</strong> from the back of the leg</p>
+
+<p><img src="/assets/images/03-15-new-pane.PNG" alt="alt text" title="New Pane" /></p>
+
+<p>And we pull it across.</p>
+
+<p><img src="/assets/images/03-16-pane-pulled.PNG" alt="alt text" title="Pane pulled" /></p>
+
+<p>We create a new sketch on that face. We want to see the intersection of this sketch with the legs, so we choose <strong>Intersect</strong> and choose <strong>Bodies</strong> in the selection filter and choose the legs. Now, the intersections have been projected on the sketch.</p>
+
+<p><img src="/assets/images/03-17-intersection.PNG" alt="alt text" title="Intersection" /></p>
+
+<p>We make the bottom <strong>colinear</strong> with the bottom of the legs and the sides colinear with the sides of the top plane.</p>
+
+<p><img src="/assets/images/03-18-colinear.PNG" alt="alt text" title="Colinear" /></p>
+
+<p>We fix the height and add a line in the middle. Now we will extrude this part <strong>symmetrically</strong> by a factor of <em>thickness / 2</em> so the total extrusion is <em>thickness</em>.</p>
+
+<p><img src="/assets/images/03-19-extrusion.PNG" alt="alt text" title="Extrusion" /></p>
+
+<p>We want to copy-paste this support, so we first create a <strong>midplane</strong> halfway between the front and back sides of the leg.</p>
+
+<p><img src="/assets/images/03-20-midplane.PNG" alt="alt text" title="Midplane" /></p>
+
+<p>We can now mirror the <strong>bodies</strong> using the midplane as a mirror and we <strong>fillet</strong> all the edges.</p>
+
+<p><img src="/assets/images/03-21-mirror.PNG" alt="alt text" title="Mirror" /></p>
+
+<p>We are almost good but we have a problem: some edges have disappeared because the support and the legs are overlapping.</p>
+
+<p><img src="/assets/images/03-22-edges-disappeared.PNG" alt="alt text" title="Edges disappeared" /></p>
+
+<p>We fix this with a <strong>combine cut</strong> using the supports as <strong>tools</strong> and the leg as <strong>bodies</strong> and we fillet the edges.</p>
+
+<p><img src="/assets/images/03-23-combine-cut.PNG" alt="alt text" title="Combine cut" /></p>
+
+<p>We are done!</p>
+
+<p><img src="/assets/images/03-24-done.PNG" alt="alt text" title="Done" /></p>
+
+<p>Now to print this, we will <strong>Create Sketch</strong> and click <strong>Finish Sketch</strong> on the top, support and leg. This will create 3 sketches that we can right-click and save to DXF to be printed.</p>
+
+<p><img src="/assets/images/03-25-saving-sketches.PNG" alt="alt text" title="Saving sketches" /></p>
+
+<p><strong>Sketches</strong></p>
+
+<p><a href="/assets/sketches/04-laptop-stand-sketches.zip">laptop-stand-sketches.zip</a></p>

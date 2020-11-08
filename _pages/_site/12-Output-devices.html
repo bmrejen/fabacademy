@@ -1,0 +1,213 @@
+<h2 id="lcd-screen">LCD screen</h2>
+
+<p>We are going to connect the LCD screen that came with our Arduino. There are 12 connections to be made!</p>
+
+<p><img src="/assets/images/12-output/01-lcd-fritz.png" alt="alt text" title="lcd fritzing" /></p>
+
+<p>We write our code:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;LiquidCrystal.h&gt;
+int rs=7;
+int en=8;
+int d4=9;
+int d5=10;
+int d6=11;
+int d7=12;
+bool firstTime = true;
+
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+void setup() {
+  lcd.begin(16, 2);   // 16 col, 2 rows
+  
+
+}
+
+void loop() {
+  lcd.setCursor(0,0);
+  
+  if (firstTime == true) {
+    lcd.print("LCD WORKING!");
+    delay(2000);
+    lcd.clear();
+    firstTime = false;
+    } 
+
+  lcd.print("Let's count!");
+  delay(1000);
+
+  for (int i=1; i&lt;=10; i++) {
+  lcd.setCursor(0,1);
+  lcd.print(i);    
+      delay(500);
+      }
+  lcd.clear();
+}
+</code></pre></div></div>
+
+<p>And it works:</p>
+
+<iframe width="420" height="315" src="https://www.youtube.com/embed/qNa8QM4a8vU" frameborder="0" allowfullscreen=""></iframe>
+
+<h2 id="piezo-motor">Piezo motor</h2>
+
+<p>We will connect a Piezo motor with a joystick.</p>
+
+<p>The joystick is basically 2 potentiometers in parallel - one for X and one for Y. In this project, we will only use the X one but pretend we also use the Y one as a proof of concept.</p>
+
+<p>The X and Y pins will be connected to analog inputs on the Arduino. The switch pin is the button pin - the joypad can also act as a button. Since it returns a boolean value, we will connect it to a digital input.</p>
+
+<p>We will also make a pull-up resistor the software way by writing <code class="highlighter-rouge">digitalWrite(switchPin, HIGH);</code></p>
+
+<p>Once the connections are made, we can write our code:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;Servo.h&gt;
+
+Servo servo;
+
+int Xpin=A0;
+int Ypin=A1;
+int switchPin=2;
+int Xval;
+int Yval;
+int switchVal;
+int servoPin = 7;
+float angle;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(Xpin, INPUT);
+  pinMode(Ypin, INPUT);
+  pinMode(switchPin, INPUT);
+  digitalWrite(switchPin, HIGH); // to make a pull-up resistor
+  servo.attach(servoPin);
+
+}
+
+void loop() {
+
+ // read the joystick movement 
+ Xval=analogRead(Xpin);
+ Yval=analogRead(Ypin);
+ switchVal=digitalRead(switchPin);
+ delay(200);
+
+ // print the values
+ Serial.print(" X = ");
+ Serial.print(Xval);
+ Serial.print(" Y = ");
+ Serial.print(Yval);
+ Serial.print(" Switch= ");
+ Serial.println(switchVal);
+
+ // move the servo
+ angle = Xval /1023.*180.;
+ servo.write(angle);
+ Serial.println(angle);
+}
+</code></pre></div></div>
+
+<p>Now it works.</p>
+
+<iframe width="420" height="315" src="https://www.youtube.com/embed/OwNQE0kF_Mg" frameborder="0" allowfullscreen=""></iframe>
+
+<p>The only problem is that I used a continuous Servo, so it never stops. And it interprets the number I send it as a speed, not a direction.</p>
+
+<h2 id="lcd-calculator">LCD calculator</h2>
+
+<p>Let’s use the LCD to make a calculator. The program will ask for a number, a second number, an operator (+ - * or /). The user can enter this data from the Serial Monitor on the Arduino IDE.</p>
+
+<p>Let’s use the same connections and rewrite our code:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;LiquidCrystal.h&gt;
+int rs = 7;
+int en = 8;
+int d4 = 9;
+int d5 = 10;
+int d6 = 11;
+int d7 = 12;
+
+float firstNum;
+float secondNum;
+float answer;
+String op;
+
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+void setup() {
+  lcd.begin(16, 2);   // 16 col, 2 rows
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Ask for first number
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Type 1st number");
+  while (Serial.available() == 0) {}
+  firstNum = Serial.parseFloat();
+  while (Serial.available() &gt; 0) {
+    Serial.read();
+  }
+
+  // Ask for second number
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Type 2nd number");
+  while (Serial.available() == 0) {}
+  secondNum = Serial.parseFloat();
+  while (Serial.available() &gt; 0) {
+    Serial.read();
+  }
+
+  // Ask for operator
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Choose -+/*");
+  while (Serial.available() == 0) {}
+  op = Serial.readString()[0];
+  while (Serial.available() &gt; 0) {
+    Serial.read();
+  }
+
+  // Choose operator
+  if (op == "+") {
+    answer = firstNum + secondNum;
+  }
+  if (op == "-") {
+    answer = firstNum - secondNum;
+  }
+  if (op == "*") {
+    answer = firstNum * secondNum;
+  }
+  if (op == "/") {
+    answer = firstNum / secondNum;
+  }
+
+  // Clear screen
+  lcd.clear();
+  lcd.setCursor(0, 0);
+
+  // Print answer
+  lcd.print(firstNum);
+  lcd.print(op);
+  lcd.print(secondNum);
+  lcd.print(" = ");
+  lcd.print(answer);
+
+  delay(3000);
+}
+</code></pre></div></div>
+
+<p><strong>A few problems we had</strong>
+We had a few issues: when writing <code class="highlighter-rouge">if (op == "+") {</code> we should be careful to use <strong>double quotes</strong> and not single quotes</p>
+
+<p>Also, the serial monitor was sending a carriage return after each line, which created a strange bug: a weird symbol appeared and the processor would always return 0.</p>
+
+<p>The solution was to remove the “Line ending” that the serial monitor would send with every input</p>
+
+<p><img src="/assets/images/12-output/02-ide-line-ending.png" alt="alt text" title="line ending in IDE" /></p>
+
+<p>But in the end it works!</p>
+
+<iframe width="420" height="315" src="https://www.youtube.com/embed/OGtp4QKRhlE" frameborder="0" allowfullscreen=""></iframe>

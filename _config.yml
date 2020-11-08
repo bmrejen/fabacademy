@@ -1,0 +1,102 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+#
+# If you need help with YAML syntax, here are some quick references for you: 
+# https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
+# https://learnxinyminutes.com/docs/yaml/
+#
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+
+title: Ben's Page
+email: benoit.mrejen@gmail.com
+description: >- # this means to ignore newlines until "baseurl:"
+  My Fab journey
+url: "http://fabacademy.org" # the subpath of your site, e.g. /blog
+baseurl: "/2020/labs/oshanghai/students/benoit-mrejen" # the base hostname & protocol for your site, e.g. http://example.com
+github_username:  bmrejen
+repo: "https://gitlab.fabcloud.org/academany/fabacademy/2020/labs/oshanghai/students/benoit-mrejen"
+
+# Build settings
+theme: jekyll-theme-hydejack
+plugins:
+  - jekyll-feed
+
+# Exclude from processing.
+# The following items will not be processed, by default.
+# Any item listed under the `exclude:` key here will be automatically added to
+# the internal "default list".
+#
+# Excluded items can be processed by explicitly listing the directories or
+# their entries' file path in the `include:` list.
+#
+# exclude:
+#   - .sass-cache/
+#   - .jekyll-cache/
+#   - gemfiles/
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules/
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
+include: ['_pages']
+# Aux links for the upper right navigation
+aux_links:
+  "My GitHub":
+    - "//github.com/bmrejen"
+
+    # Footer content appears at the bottom of every page's main content
+footer_content: "Copyright &copy; 2017-2019 Benoit Mrejen"
+menu:
+  - title: About
+    url:   /about/
+  - title: 01-02. Project management
+    url:  /_pages/01-02-Project-management.html
+  - title: 03. CAD
+    url:  /_pages/03-CAD.html
+  - title: 04. Cutting
+    url:  /_pages/04-cutting.html
+  - title: 05. Electronics production
+    url:  /_pages/05-Electronics-production.html
+  - title: 06. 3D Scanning and printing
+    url:  /_pages/06-3D-Scanning-and-printing.html
+  - title: 07. Electronics design
+    url:  /_pages/07-Electronics-design.html
+  - title: 08. Computer controlled machining
+    url:  /_pages/08-Computer-controlled-machining.html
+  - title: 09. Embedded programming
+    url:  /_pages/09-Embedded-programming.html
+  - title: 10. Molding and casting
+    url:  /_pages/10-Molding-and-casting.html
+  - title: 11. Input devices
+    url:  /_pages/11-Input-devices.html
+  - title: 12. Output devices
+    url:  /_pages/12-Output-devices.html
+  - title: 13. Applications and implications
+    url:  /_pages/13-Applications-and-implications.html
+  - title: 14. Networking and communications
+    url:  /_pages/14-Networking-and-communications.html
+  - title: 15. Mechanical design
+    url:  /_pages/15-Mechanical-design.html
+  - title: 16. Interface and application programming
+    url:  /_pages/16-Interface-and-application-programming.html
+  - title: 17. Machine design
+    url:  /_pages/17-Machine-design.html
+  - title: 18. Wildcard week
+    url:  /_pages/18-Wildcard-week.html
+  - title: 19. Invention intellectual property and income
+    url:  /_pages/19-Invention-intellectual-property-and-income.html
+  - title: 20. Project development
+    url:  /_pages/20-Project-development.html

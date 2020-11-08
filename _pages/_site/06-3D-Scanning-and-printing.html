@@ -1,0 +1,91 @@
+<p>Today we are printing a 3D earring.</p>
+
+<p>We have two printers in the lab: <strong>Resine</strong> and <strong>Filament</strong></p>
+
+<h2 id="resine">Resine</h2>
+<p>It’s heavier and it breaks, but it’s very fine.
+It is 100% solid, making no mesh inside. That’s why it’s pretty heavy.</p>
+
+<p>It’s more expensive, and is used for more brittle stuff. 
+It only uses 1 material. The support will be generated automatically</p>
+
+<p>After printing, you need to give it a bath of resine in a bath cage for 20 minutes, using goggles. 
+And then put it in the tanning machine</p>
+
+<p>It’s not very practical. However, the resin printer, despite requiring heaps of safety nets due to its high toxicity, does produce beautifully fine prints we will probably try to work with in the future.</p>
+
+<h2 id="filament">Filament</h2>
+<p>It’s lighter and sturdier. We can print in</p>
+<ul>
+  <li><strong>PLA</strong>: the most common one, creates less particles</li>
+  <li><strong>ABS</strong>: a bit like legos, might be a bit toxic</li>
+  <li><strong>PVA</strong>: water-soluble material. It is used when the item we print requires support (eg. when you create something with a long overhang)</li>
+</ul>
+
+<p>It prints making honeycombs or a mesh in the inside.</p>
+
+<p>There are 2 nozzles on the printer: one for the print, one for the support. For the first print, we will use 2.85mm PLA + 2.85mm PVA.</p>
+
+<h2 id="first-prints">First prints</h2>
+<p>We download a sketch from Instructibles. It’s a .stl file used for stereolithography</p>
+
+<ol>
+  <li>We open <strong>Ultimaker Cura</strong></li>
+  <li>Select Red PLA 0.25mm and White PVA 0.25mm</li>
+  <li>We import the 3D model we downloaded (remember it has to be <strong>watertight</strong>, i.e present a continuous mesh of triangles)</li>
+  <li>We don’t need the <strong>Infill</strong> to be too high, we want <strong>Adhesion</strong> checked and we choose a pretty high <strong>Profile</strong>- this will create thick layers with fewer details but that are faster to print.</li>
+  <li>We also reduce the size of the <strong>mill</strong> as we don’t need any large support around the base</li>
+  <li>We reduce the size because we want to print something small</li>
+  <li>We save to USB, bring it to the printer and launch the print job.</li>
+</ol>
+
+<p>The first file is a torture test.</p>
+
+<p><img src="/assets/images/06-01-torture-test.png" alt="alt text" title="torture test" /></p>
+
+<p>It’s clear the printer has trouble printing overhangs over 45 degrees.</p>
+
+<p>The second file is an earring downloaded from Instructibles.com</p>
+
+<p><img src="/assets/images/06-02-earring.png" alt="alt text" title="earring" /></p>
+
+<p>We printed it pretty small. It only took 8 minutes.</p>
+
+<h2 id="3d-scanning">3D Scanning</h2>
+
+<p>We are going to scan a little statue that was printed with resine a few weeks ago.
+<img src="/assets/images/06-03-original.png" alt="alt text" title="original" /></p>
+
+<p>We took 2 circles of 360 pictures - one higher, one lower.
+<img src="/assets/images/06-04-shots.png" alt="alt text" title="shots" /></p>
+
+<p>After uploading everything to <strong>Recap Photo</strong>, we waited for a few hours and got the final model.
+The end result is pretty weird
+<img src="/assets/images/06-05-final-model.png" alt="alt text" title="final-model" /></p>
+
+<p>It also looks flat
+<img src="/assets/images/06-06-final-model-side.png" alt="alt text" title="final-model-side" /></p>
+
+<p>My guess is that this is due to the scanning process we used: we manually pivoted the model by 5-10 degrees after every shot while keeping the camera steady in only one place. As you can see, the background never changes. I guess this is what confused the program.</p>
+
+<p>Also it seems that the lighting wasn’t ideal, with some areas too dark and some areas too glossy.
+We will do it a differently next time.</p>
+
+<h2 id="re-try">Re-try</h2>
+
+<p>This time we used a <a href="https://fabscan.org/">FabScan</a>, an open-source 3D laser scanner.</p>
+
+<p>This is the assembled case
+<img src="/assets/images/scan/scan1.jpg" alt="alt text" title="scan1" /></p>
+
+<p>The HAT parts are pretty elementary
+<img src="/assets/images/scan/scan2.png" alt="alt text" title="scan2" /></p>
+
+<p>This is the FabScanPi HAT with soldered parts
+<img src="/assets/images/scan/scan3.png" alt="alt text" title="scan3" /></p>
+
+<p>This is our first software test
+<img src="/assets/images/scan/scan4.png" alt="alt text" title="scan4" /></p>
+
+<p>After modelizing the snowball, we get an acceptable stl file
+<img src="/assets/images/scan/scan5.png" alt="alt text" title="scan5" /></p>

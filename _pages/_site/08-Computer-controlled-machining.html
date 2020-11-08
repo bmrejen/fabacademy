@@ -1,0 +1,90 @@
+<h2 id="computer-controlled-machining">Computer-Controlled machining</h2>
+
+<p><strong>Assignment</strong>: test runout, alignment, speeds, feeds, and toolpaths for your machine</p>
+
+<p>Today we are working with a CNC. The first program we use is <strong>VCarve Pro</strong></p>
+
+<p>We fill first try to use styrofoam and cut a 3-centimeter layer from the top.</p>
+
+<p>We enter the length and width of our block
+<img src="/assets/images/08-01-dimension01.jpg" alt="alt text" title="dimension01" /></p>
+
+<p>We choose a cut depth of 2 mm
+<img src="/assets/images/08-02-dimension02.jpg" alt="alt text" title="dimension02" /></p>
+
+<p>We should have the block that we created visible in 3D
+<img src="/assets/images/08-04-dimension04.jpg" alt="alt text" title="dimension04" /></p>
+
+<p>We can see the path the mill is going to take by clicking <em>Reset Toolpath</em> and <em>Preview Toolpath</em>
+<img src="/assets/images/08-03-dimension03.jpg" alt="alt text" title="dimension03" /></p>
+
+<p>When we are done, we have 2 files to save:</p>
+<ul>
+  <li>a <strong>.sbp</strong> file for the toolpath</li>
+  <li>a <strong>.crv</strong> file as a general save with all features</li>
+</ul>
+
+<p>We are now ready to send the job to the milling program</p>
+
+<h2 id="running-the-job">Running the job</h2>
+
+<p>We will use <strong>Shopbot</strong> to do the milling</p>
+
+<p>Stick base pane so it doesn’t fly off.
+<img src="/assets/images/08-13-sticking board.PNG" alt="alt text" title="sticking" /></p>
+
+<p>Choose the good flute for the material we are going to mill and measure it
+<img src="/assets/images/08-11-measuring flute.PNG" alt="alt text" title="measuring" /></p>
+
+<p>We stick it inside the machine with 2 wrenches. We do not go too hard on then
+<img src="/assets/images/08-15-tightening flute.PNG" alt="alt text" title="tightening" /></p>
+
+<p>Choose rpm on the machine. It ranges 0-300, with 300 corresponding to 18,000 rpm.
+In our case we choose 167, which matches 10,000 rpm.
+<img src="/assets/images/08-12-setting rpm.PNG" alt="alt text" title="setting" /></p>
+
+<p>We open the file with the program.
+<img src="/assets/images/08-06-dimension07.jpg" alt="alt text" title="dimension07" /></p>
+
+<p>We chose a z-zero at the top of the plane by clicking <em>Move Tool</em>. On our program, we have to click it twice.</p>
+
+<p><img src="/assets/images/08-07-dimension08.jpg" alt="alt text" title="dimension08" /></p>
+
+<p>We move the mill to the zero we want.
+<img src="/assets/images/08-08-dimension09.jpg" alt="alt text" title="dimension09" /></p>
+
+<p>When we are done, we click the <em>Zero Axes</em>
+<img src="/assets/images/08-09-dimension10.jpg" alt="alt text" title="dimension10" /></p>
+
+<p>When we are done, we click Start
+<img src="/assets/images/08-10-dimension13.jpg" alt="alt text" title="dimension13" /></p>
+
+<p>We heat up the machine by having it run for 10 minutes. This is done with <em>Alt-C-5</em></p>
+
+<p>The first run will be a <strong>dry run</strong>. We put the z axis higher than it should be. This way the machine is going to mill in the air so we can make sure the path looks ok.</p>
+
+<p>When we are done, we set the z axis well again and click <em>Cut Part</em>.</p>
+
+<p>We keep the index on the space bar to interrupt the process if anything goes wrong.</p>
+
+<p>When we are done, we have a block of styrofoam where the top layer has been totally removed. 
+<img src="/assets/images/08-14-styrofoam block.PNG" alt="alt text" title="styrofoam" /></p>
+
+<p><strong>Second assignment</strong>: make something big</p>
+
+<p>Our machine is pretty small and we only had 2 days in the lab because of the confinement rules in France. So we made something small.</p>
+
+<p>We made a small puzzle piece. We used a gap of 0.1 mm and couldn’t piece them together.</p>
+
+<p>The first problem we had is that the milling went too far down.
+This dug too far down in the tabs, and as a result, the piece flew off.</p>
+
+<p><img src="/assets/images/08-17-bad-tabs.gif" alt="alt text" title="bad tabs" /></p>
+
+<p>We used 0.2 mm and it worked but it was way too tight.
+0.3 mm was the perfect size.
+<img src="/assets/images/08-16-0.2mm.PNG" alt="alt text" title="0.2" /></p>
+
+<p><strong>Hints for next time</strong></p>
+
+<p>The milling was very slow. Next time we mill into styrofoam, we can have a very small overlap, maybe 0.2. This way the milling can go faster</p>

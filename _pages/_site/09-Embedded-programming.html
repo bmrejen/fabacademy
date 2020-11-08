@@ -1,0 +1,57 @@
+<p>Homework: <strong>Make an Arduino project</strong></p>
+
+<p>I have installed the Arduino software on my Windows machine and already made a few projects with it.
+But now, I would like to try two different programming languages with it: <strong>Cylon.js</strong>, built on JavaScript and <strong>Artoo</strong>, built on Ruby.</p>
+
+<p>We have made several projects during the week.
+One of them is using a potentiometer to fade the light of a led.</p>
+
+<p>We shoot 5V to the potentiometer and connect the LED to a digital pin that supports PWM. On the Arduino MEGA 2560 that we are using, all of them do.
+We will remember to use both <code class="highlighter-rouge">analogRead()</code> and <code class="highlighter-rouge">analogWrite()</code></p>
+
+<p>I fried an LED using it without a resistor, so now we are using a resistor</p>
+
+<p><img src="/assets/images/09-arduino/02-breadboard.PNG" alt="alt text" title="breadboard" /></p>
+
+<p>It can also be simulated on TinkerCAD
+<img src="/assets/images/09-arduino/03-tinkercad.PNG" alt="alt text" title="tinkercad" /></p>
+
+<h1 id="using-cylonjs">Using Cylon.JS</h1>
+
+<ol>
+  <li>Install NodeJS by downloading it from the official website</li>
+  <li><code class="highlighter-rouge">npm install cylon cylon-firmata</code></li>
+  <li>Install Gort from the <a href="http://gort.io/documentation/getting_started/downloads/">official website</a></li>
+  <li><code class="highlighter-rouge">gort arduino install</code></li>
+  <li><code class="highlighter-rouge">gort scan serial</code>
+We can see that the Arduino is connected to COM4</li>
+  <li><code class="highlighter-rouge">gort arduino upload firmata COM4</code></li>
+</ol>
+
+<p>We are now ready to connect and communicate with the Arduino via serial</p>
+
+<h1 id="work-in-progress---using-docker">Work in progress - using Docker</h1>
+
+<p><strong>Reminder:</strong> we have a few constraints:</p>
+<ol>
+  <li>We are running Windows</li>
+  <li>I do not want to install any software</li>
+  <li>Therefore, everything we do will be happening in a docker</li>
+</ol>
+
+<h2 id="making-docker-gui-friendly">Making Docker GUI-friendly</h2>
+
+<p>So far, Docker has only been working in CLI. This has been useful for many of the applications but it seems to me that we are going to need the GUI.
+In the future, I want to go 100% CLI but let’s make our Docker GUI-compatible for now.</p>
+
+<p><strong>Install VcxSrv</strong>
+<code class="highlighter-rouge">choco install vcxsrv</code> and then follow the <a href="https://dev.to/darksmile92/run-gui-app-in-linux-docker-container-on-windows-host-4kde">following instructions</a></p>
+
+<p>Now our <strong>hosts</strong> should have 2 extra lines indicating the $DISPLAY should be connected to our local IP</p>
+
+<p><img src="/assets/images/09-arduino/01-hostfile.PNG" alt="alt text" title="hostfile" /></p>
+
+<p>Let’s test if it works by running GIMP:
+<code class="highlighter-rouge">docker run --rm -it -e DISPLAY=host.docker.internal:0 jamesnetherton/gimp</code></p>
+
+<p>Now that we have GIMP running, we can create a <strong>Dockerfile</strong></p>

@@ -1,0 +1,126 @@
+<h3 id="problem">Problem</h3>
+
+<p>My friend <a href="https://www.linkedin.com/in/jamshidkohandel/">Jamshid Kohandel</a> works for the French government as a special advisor for digital transformation. He also happens to be 100% blind.</p>
+
+<p>A big issue he faces is that when he goes to a social gathering with lots of people that he knows, he has no way to know who is standing around him. As a result, he cannot approach his friends or acquaintances; he has to wait for them to approach him.</p>
+
+<p>This is pretty upsetting because that means he has little control over his social interactions and has to remain totally passive while people around him are having fun.</p>
+
+<h2 id="solution">Solution</h2>
+
+<p>We are going to tackle this problem with some <strong>Face-recognition glasses</strong></p>
+
+<p>Hopefully, these glasses will gather a lot of functions. We are probably going to have to abandon a few of them to finish this project in time, but theoretically, we want our glasses to be able to:</p>
+
+<ul>
+  <li>scan the environment in front of him</li>
+  <li>compare them to a database of known faces in a SD card</li>
+</ul>
+
+<p><strong>If the person is already in the database</strong></p>
+<ul>
+  <li>the glasses will say the name of this person out loud through a built-in speaker</li>
+</ul>
+
+<p><strong>If this person is unknown</strong></p>
+<ul>
+  <li>the speaker will give some indications, like “female, around 40, Asian, police uniform”</li>
+  <li>Jamshid can populate his database of known faces by standing in front of them and pressing a button and saying their name</li>
+</ul>
+
+<h2 id="future-improvements">Future improvements</h2>
+
+<p>If we are able to complete this task, we also want to add some features that will improve the lives of blind people around the world:</p>
+<ul>
+  <li>the glasses can recognize elements of the environment and say things like “car, dog, door, stairs, stop sign”</li>
+  <li>we can add a distance measurement and have the speaker speak LOUDER for close people or objects</li>
+  <li>we can add 4 speakers on the glasses so the sound comes from the position of the item</li>
+  <li>we can add hole-trackers. Blind people can already detect obstacles with their traditional or AI-canes but it’s very hard for them to detect holes. As a result, it’s easy for them to fall into a lake or a manhole cover.</li>
+</ul>
+
+<h2 id="what-we-will-need">What we will need</h2>
+
+<ul>
+  <li>
+    <p>Raspberry Pi that is not too big and has enough computing power
+Arduino is too slow, Jetson Nano is not portable. We will use a Banana Pi M2 Zero OR a Pi Zero W OR a Pi Model A+</p>
+  </li>
+  <li>
+    <p>ESP-EYE with built-in microphone</p>
+  </li>
+  <li>
+    <p>speakers</p>
+  </li>
+  <li>
+    <p>battery holder</p>
+  </li>
+  <li>
+    <p>probably a relay</p>
+  </li>
+  <li>
+    <p>probably a buck converter</p>
+  </li>
+  <li>
+    <p>battery</p>
+  </li>
+  <li>
+    <p>battery holder</p>
+  </li>
+  <li>
+    <p>FTDI programmer</p>
+  </li>
+</ul>
+
+<h2 id="installing-the-cam">Installing the cam</h2>
+
+<p><img src="https://maker.pro/storage/SFYdixn/SFYdixnlDb2eAhV3GHS0QdVhGTjgXb8FV8KqPxxH.png" alt="alt text" /></p>
+
+<p><img src="https://maker.pro/storage/09GGoBk/09GGoBklQg0Y8kUmEdbzrMWPdvu2NvBrAX98iooL.jpeg" alt="alt text" /></p>
+
+<p>Add the battery</p>
+
+<p><img src="https://maker.pro/storage/9pMh0MR/9pMh0MRwZCilOFtRrWMy4pngrd2o0XlkxzQD598a.jpeg" alt="alt text" /></p>
+
+<p>We install a board manager in the Arduino IDE</p>
+
+<p><img src="https://maker.pro/storage/AGixxkb/AGixxkb7AxFXahBFPS2Ibs6GfuIWcQeA4H4If6tg.png" alt="alt text" /></p>
+
+<p><img src="https://maker.pro/storage/Hp01pwg/Hp01pwg6tF49MRUkw1uGczyVcsDHeJyl0myF4tM8.png" alt="alt text" /></p>
+
+<p>and uncomment the line <code class="highlighter-rouge">#define CAMERA_MODEL_AI_THINKER</code>
+and add</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const char* ssid = "my_wifi_network";
+const char* password = "my_wifi_password";
+</code></pre></div></div>
+
+<p>The cam now offers a server</p>
+
+<p><img src="https://maker.pro/storage/zKZVgo4/zKZVgo4oUS0HIlQeaO9e0kwbER5p2NYb8fDHBHSP.png" alt="alt text" /></p>
+
+<p>When using face recognition, we use CIF detection</p>
+
+<p><img src="https://maker.pro/storage/OvRvu4z/OvRvu4zQGYRugvqv3lANvWF1UIrsmexKhYAk4yfH.png" alt="alt text" /></p>
+
+<h3 id="3d-model">3D model</h3>
+
+<p>The rough sketch will look something like this</p>
+<iframe width="420" height="315" src="https://www.youtube.com/embed/1NtTdS63znI" frameborder="0" allowfullscreen=""></iframe>
+
+<p>We print it with our Alfawise U30 Pro</p>
+
+<p>Settings:</p>
+
+<ul>
+  <li>PLA</li>
+  <li>Nozzle: 0.4 mm</li>
+  <li>Heatbed: 160°</li>
+  <li>Nozzle temp: 205°</li>
+</ul>
+
+<p>Result: we have something to start with</p>
+
+<p><img src="/assets/images/project/glasses-01.jpg" alt="alt text" title="glases01" /></p>
+
+<p><img src="/assets/images/project/glasses-02.jpg" alt="alt text" title="glases02" /></p>
+
+<p><img src="/assets/images/project/glasses-03.jpg" alt="alt text" title="glases03" /></p>

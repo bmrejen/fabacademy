@@ -1,0 +1,347 @@
+<h3 id="making-the-current-website">Making the current website</h3>
+
+<p>How did I make the website you are reading? Here are the steps to follow.</p>
+
+<p>I have decided to use Jekyll to make this website. It is a static website generator.
+We will use it to create the files that the webserver will display.</p>
+
+<p>However, we have to work with a few limitations:
+    1. I am running Windows
+    2. I do not want to install anything on my computer</p>
+
+<p>We will go around these limitations by using Docker, which will run all the programs I want without installing anything permanent.</p>
+
+<p>The first step will be to create the Jekyll files on my computer.</p>
+
+<h3 id="creating-the-files-on-the-hard-drive">Creating the files on the hard drive</h3>
+
+<p>Let’s start by pulling the jekyll image from the docker and use it to create the project on a volume I mounted on my hard drive.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run --rm -it -p 4000:4000 -v "$(pwd):/srv/jekyll" jekyll/jekyll /bin/bash
+jekyll new .
+bundle exec jekyll serve
+</code></pre></div></div>
+<p>We can now go to localhost:4000 and we already have the project running !</p>
+
+<p><img src="https://blog.strapi.io/content/images/2018/04/Screen-Shot-2018-04-25-at-13.04.11.png" alt="alt text" title="Jekyll homepage" /></p>
+
+<p>However, this is just a temporary solution. The files are going to stay on my hard drive but the docker and its programs will disappear as soon as I quit. So let’s make a more permanent solution.</p>
+
+<h3 id="creating-dockerfile-and-docker-compose">Creating Dockerfile and docker-compose</h3>
+<ol>
+  <li>
+    <p>Let’s create a Dockerfile with <code class="highlighter-rouge">touch Dockerfile</code>.There is no need to build it</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> FROM jekyll/jekyll
+ ADD . /srv/jekyll
+ RUN bundle install
+ EXPOSE 4000
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>And let’s create a docker-compose file with <code class="highlighter-rouge">touch docker-compose.yml</code></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> version: '3'
+
+ services:
+ jekyll: 
+     image: jekyll/jekyll
+     container_name: jekyll_blog
+     environment:
+         - JEKYLL_ENV=docker
+     # force_polling makes the linux box watch for any changes to files, then it will regenerate
+     # livereload gets the browser to automatically refresh when changes happen to files
+     command: bash -c "bundle install &amp;&amp; jekyll serve --force_polling --livereload"
+     ports:
+         - 4000:4000
+         - 35729:35729
+     volumes:
+         - ./:/srv/jekyll
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Now we can launch it with <code class="highlighter-rouge">docker-compose up</code> and visit http://localhost:4000 to see our project.</p>
+  </li>
+</ol>
+
+<p>And it works</p>
+
+<p><img src="https://blog.strapi.io/content/images/2018/04/Screen-Shot-2018-04-25-at-13.04.11.png" alt="alt text" title="Jekyll homepage" /></p>
+
+<h3 id="installing-the-theme">Installing the theme</h3>
+<p>We are going to modify some files that are inside the docker. We do not need to stop the docker for that.
+However, I am running Windows and I am too lazy to install Ubuntu, so I am going to attach my terminal to the running docker so I can work with UNIX commands.</p>
+
+<ol>
+  <li>
+    <p>Attach to the docker
+ <code class="highlighter-rouge">docker exec -ti jekyll_blog bash</code></p>
+
+    <p>Aaaand we’re in!</p>
+  </li>
+</ol>
+
+<p><img src="/assets/images/02-01-docker.PNG" alt="alt text" title="docker exec" /></p>
+
+<p>Now I can run the following commands inside my docker</p>
+
+<ol>
+  <li>
+    <p>Add the theme to the <code class="highlighter-rouge">Gemfile</code></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> gem "just-the-docs"
+ gem "jekyll", "~&gt; 3.3" 	# unfortunately, we have to downgrade Jekyll to use this theme
+</code></pre></div>    </div>
+  </li>
+  <li>Install the gems with <code class="highlighter-rouge">bundle install</code></li>
+  <li>Add the theme to <code class="highlighter-rouge">_config.yml</code>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> theme: "just-the-docs"
+</code></pre></div>    </div>
+  </li>
+  <li>Since we modified <code class="highlighter-rouge">config.yml</code>, we need to restart docker (Ctrl+C) and launch it again with <code class="highlighter-rouge">docker-compose up</code></li>
+</ol>
+
+<p>Now we can go to <strong>localhost:4000</strong> and see the website with the new theme</p>
+
+<p><img src="/assets/images/02-02-localhost.PNG" alt="alt text" title="localhost" /></p>
+
+<p>You can notice that the other terminal also got detached from the docker when it closed. You might need to repeat step 1 to get back into it.</p>
+
+<h3 id="deploying">Deploying</h3>
+
+<p>In my previous configuration, the <code class="highlighter-rouge">_site</code> folder (where Jekyll builds the site) was ignored by git, and Gitlab would proceed to building it itself. Unfortunately, this was a pretty buggy solution because bundler has 2 different gemspecs and the job always failed because of a wrong bundler version no matter what. 
+So we are going to build everything locally and push everything to Gitlab - both sources and build.</p>
+
+<ol>
+  <li>Let’s create a config file for Gitlab with <code class="highlighter-rouge">touch .gitlab-ci.yml</code></li>
+  <li>
+    <p>Let’s just keep the minimum info in it</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> image: python:alpine
+ pages:
+ script:
+ - mv _site public
+ artifacts:
+     paths:
+     - public
+ only:
+ - master
+</code></pre></div>    </div>
+    <p>Keep in mind that you should NOT use tabs in config files, only spaces.</p>
+  </li>
+</ol>
+
+<p>Now, when we push anything on the master branch, Gitlab will rename the <code class="highlighter-rouge">_site</code> folder in <code class="highlighter-rouge">public</code>, and the files will be served from there.</p>
+
+<p>Caution! This means we need to build the files before pushing them. We will solve this problem later.</p>
+
+<h3 id="deploying-for-the-first-time">Deploying for the first time</h3>
+
+<ol>
+  <li>Let’s create the build with <code class="highlighter-rouge">jekyll build</code></li>
+  <li>
+    <p>Let’s make sure that the folder will be pushed as well. Go to <code class="highlighter-rouge">.gitignore</code> and remove the following line
+<code class="highlighter-rouge">_site</code></p>
+  </li>
+  <li>
+    <p>Let’s push</p>
+
+    <p><code class="highlighter-rouge">git add . &amp;&amp; git commit -m "initial commit" &amp;&amp; git push origin master</code></p>
+
+    <p>Now you can go to <strong>http://fabacademy.org/2020/labs/oshanghai/students/benoit-mrejen/</strong></p>
+  </li>
+  <li>Ouch ! We have styling issues !</li>
+</ol>
+
+<p><img src="/assets/images/02-02bis-not-working.PNG" alt="alt text" title="not working" /></p>
+
+<p>The links are messed up. Jekyll cannot find the pages, assets or css stylesheets.
+What happened? We need to fix our links.</p>
+
+<h3 id="fixing-the-links">Fixing the links</h3>
+
+<p>Working with Jekyll is a big pain in the ass when it comes to links. Relative paths do not work when you are inside a subfolder. Many workaround exist but none of them is very satisfactory.</p>
+
+<p>For the time being, we will simply tell Jekyll to pre-pend each relative path with a baseurl. This is not very good practice, but it will do for this project.</p>
+
+<ol>
+  <li>
+    <p>Let’s go to <code class="highlighter-rouge">_config.yml</code> and change the baseurl (you can see the full file at the bottom of this page)</p>
+
+    <p><code class="highlighter-rouge">baseurl: "/2020/labs/oshanghai/students/benoit-mrejen"</code></p>
+
+    <p>This is the the subpath of the site. Now, every link should be working.</p>
+
+    <p>It’s not very nice but it works.</p>
+  </li>
+  <li>
+    <p>Since we have touched the <code class="highlighter-rouge">_config.yml</code>, we need to stop the docker (Ctrl+C) and restart it again with <code class="highlighter-rouge">docker-compose up</code></p>
+  </li>
+  <li>Let’s re-attach the second terminal so we can build our files. Type
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> docker exec -ti jekyll_blog bash
+ jekyll b
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Let’s stage, commit and push</p>
+
+    <p><code class="highlighter-rouge">git add . &amp;&amp; git commit -m "add baseurl" &amp;&amp; git push</code></p>
+
+    <p>Let’s go to our website</p>
+
+    <p>It works!</p>
+  </li>
+</ol>
+
+<h3 id="fixing-the-localhost-links-issue">Fixing the localhost links issue</h3>
+<p>As I said, this is pretty bad practice. You can already see the result: since the links are hardlinked to the FabAcademy website, my localhost cannot find the content or the CSS files.</p>
+
+<p><img src="/assets/images/02-02ter-localhost-not-working.PNG" alt="alt text" title="localhost not working" /></p>
+
+<p>Let’s try to solve this problem. Let’s open our <code class="highlighter-rouge">docker-compose.yml</code> again and add one option</p>
+
+<p>transform this line:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    command: bash -c "bundle install &amp;&amp; jekyll serve --force_polling --livereload"
+</code></pre></div></div>
+
+<p>into this</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    command: bash -c "bundle install &amp;&amp; jekyll serve --force_polling --livereload --baseurl '/'"
+</code></pre></div></div>
+
+<p><img src="/assets/images/02-03-docker-compose.PNG" alt="alt text" title="docker-compose" /></p>
+
+<p>Now when docker-compose runs, it well serve the files with no baseurl, and my localhost looks exactly like my live website. 
+Solved !</p>
+
+<p><img src="/assets/images/02-02-localhost.PNG" alt="alt text" title="localhost" /></p>
+
+<h3 id="adding-content">Adding content</h3>
+
+<p>Just the Docs doesn’t work with posts but pages, so let’s create these.</p>
+
+<ol>
+  <li>
+    <p>Inside the docker let’s make a folder _pages with all our pages in it:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> mkdir _pages &amp;&amp; cd _pages
+ touch index.markdown 01-Principles-and-practices.markdown 02-Project-management.markdown 
+</code></pre></div>    </div>
+  </li>
+  <li>we need to tell Jekyll to look into this folder for pages in <code class="highlighter-rouge">.config.yml</code>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> include: ['_pages']
+</code></pre></div>    </div>
+  </li>
+  <li>We want to put all assignment pages under an Assignment menu, so our <code class="highlighter-rouge">/_pages/index.markdown</code> will look like this
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ---
+ layout: page
+ title: Assignments
+ nav_order: 1
+ has_children: true
+ ---
+ This is the list of assignments
+</code></pre></div>    </div>
+    <p>and <code class="highlighter-rouge">01-Principles.markdown</code> will look like this</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ---
+ layout: page
+ title: 01. Principles and practices
+ parent: Assignments
+ nav_order: 0
+ ---
+ Today we spoke about principles
+</code></pre></div>    </div>
+    <p>and <code class="highlighter-rouge">02-Project-management.markdown</code> will look like this:</p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ---
+ layout: page
+ title: 02. Project management
+ parent: Assignments
+ nav_order: 1
+ ---
+ Today we spoke about project management
+</code></pre></div>    </div>
+  </li>
+  <li>Let’s add some info in <code class="highlighter-rouge">/index.markdown</code></li>
+  <li>Add a <code class="highlighter-rouge">favicon.ico</code> to the root</li>
+  <li>Let’s add some personal info in the <code class="highlighter-rouge">.config.yml</code> and restart the docker</li>
+</ol>
+
+<p><img src="/assets/images/02-04-config.PNG" alt="alt text" title="config" /></p>
+
+<ol>
+  <li>
+    <p>It works !</p>
+
+    <p>We now have a working website</p>
+
+    <p><img src="/assets/images/02-05-working.PNG" alt="alt text" title="working" /></p>
+
+    <p>Now all we need to do again is to build and push:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> jekyll b
+ git add . &amp;&amp; git commit -m "final version" &amp;&amp; git push origin master
+</code></pre></div>    </div>
+
+    <p>And we’re live!</p>
+
+    <p><img src="/assets/images/02-06-working-online.PNG" alt="alt text" title="working online" /></p>
+  </li>
+</ol>
+
+<h3 id="using-git">Using git</h3>
+
+<p>Using git is the same workflow as always:</p>
+<ol>
+  <li>
+    <p>Fire up the docker
+<code class="highlighter-rouge">docker-compose up</code></p>
+  </li>
+  <li>
+    <p>Change the files that I want</p>
+  </li>
+  <li>
+    <p>When all is good, we will need to build the assets and files, but for this, we are going to open a new terminal and get inside the docker that we fired up in step 1</p>
+  </li>
+</ol>
+
+<p><code class="highlighter-rouge">docker exec -ti jekyll_blog /bin/bash</code></p>
+
+<p>-ti = interactive</p>
+
+<p><em>/bin/bash</em> can be abbreviated by <em>bash</em> because it is in my $PATH</p>
+
+<ol>
+  <li>
+    <p>Once inside, we can run <code class="highlighter-rouge">jekyll build</code> or simply <code class="highlighter-rouge">jekyll b</code></p>
+  </li>
+  <li>
+    <p>Look at the result with <code class="highlighter-rouge">git status</code> and select the files we want to commit with <code class="highlighter-rouge">git add file1 file2 file 3</code> or simply <code class="highlighter-rouge">git add .</code> to stage everything for the commit</p>
+  </li>
+  <li>
+    <p>Commit them with <code class="highlighter-rouge">git commit -m "Type commit message here"</code></p>
+  </li>
+  <li>
+    <p>Push them with <code class="highlighter-rouge">git push</code></p>
+  </li>
+  <li>
+    <p>Navigate to the <a href="">website</a> and see the changes</p>
+  </li>
+</ol>
+
+<p>If this were a bigger project, we would create branches with <code class="highlighter-rouge">git checkout -b branch_feature</code> and merge it back to master. But this is a small project, so pushing everything to the master branch is okay.</p>
+
+<h3 id="in-the-future">In the future</h3>
+
+<ol>
+  <li>
+    <p>Pre-push hook</p>
+
+    <p>It’s a bit cumbersome to manually build the files before pushing them.
+ In the future, we can set up a pre-push Git hook to do that for us.</p>
+  </li>
+  <li>
+    <p>Better Git workflow</p>
+
+    <p>It could also be good practice to stop pushing on the master and <a href="https://nvie.com/posts/a-successful-git-branching-model/">use better versioning practices for our workflow</a></p>
+  </li>
+</ol>

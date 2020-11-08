@@ -1,0 +1,108 @@
+<h2 id="precaution-rules">Precaution rules</h2>
+<ol>
+  <li>Do not touch microchips with hands. Static electricity is enough to kill them</li>
+  <li>Do not place an Arduino on metal. It’s easy to short it.</li>
+  <li>If you use through-hole pins, try to have 4 pins together as it will make them more sturdy</li>
+  <li>Always do multiple passes when cutting and check with a microscope to see there aren’t any hairs or shorts.</li>
+  <li>Always use the air pump and the exhaust pump when using the laser cutter</li>
+  <li>Always stay next to the cutter while cutting as a fire can break out easily.</li>
+</ol>
+
+<h2 id="settings">Settings</h2>
+<p>We use the following settings:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>Fiber</th>
+      <th>CO2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Goal</td>
+      <td>Carve</td>
+      <td>Cut</td>
+    </tr>
+    <tr>
+      <td>Line style</td>
+      <td>Raster</td>
+      <td>Vector</td>
+    </tr>
+    <tr>
+      <td>DPI</td>
+      <td>1200</td>
+      <td>(none)</td>
+    </tr>
+    <tr>
+      <td>Speed</td>
+      <td>10</td>
+      <td>30</td>
+    </tr>
+    <tr>
+      <td>Power</td>
+      <td>100</td>
+      <td>70</td>
+    </tr>
+    <tr>
+      <td>Frequency</td>
+      <td>1</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>Focus</td>
+      <td>+4.0</td>
+      <td>+4.0</td>
+    </tr>
+    <tr>
+      <td>Passes</td>
+      <td>2</td>
+      <td>~20</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="carving">Carving</h2>
+<p>We stick a board of FR1 or FR4 using double-sided adhesive tape to a metallic plate. And put it inside the cutter. We caliber it (Z axis) with the appropriate tees and set the home (X and Y axis).
+<img src="/assets/images/05-03-cutter.png" alt="alt text" title="cutter" /></p>
+
+<p>We first download and print this image for the circuit, using the <strong>Fiber cutter</strong> <img src="/assets/images/05-01-fts_mini_traces.png" alt="alt text" title="circuit" /></p>
+
+<p>We don’t forget to set the home on the X and Y axis.</p>
+
+<p>The fiber cutting should give a green light
+<img src="/assets/images/05-04-green-light.png" alt="alt text" title="green light" /></p>
+
+<p>When this done, we test it for continuity
+<img src="/assets/images/05-05-test.png" alt="alt text" title="test" /></p>
+
+<p>We test it for continuity with a multimeter in continuity mode
+<img src="/assets/images/05-06-multimeter.png" alt="alt text" title="multimeter" /></p>
+
+<h2 id="cutting">Cutting</h2>
+
+<p>When this is done, we leave it inside the machine and cut the edges using this image with the same home, using this time the <strong>CO2 cutter</strong>
+<img src="/assets/images/05-02-fts_mini_cut.png" alt="alt text" title="board" /></p>
+
+<p>Since we will not be milling, this image is not good. We only need a small line at the junction of the black and white areas.
+We use <strong>CorelDraw</strong> to create a <strong>hairline</strong> along this border and print it.</p>
+
+<p>The cutting gives a yellow light</p>
+
+<p><img src="/assets/images/05-07-cutting.png" alt="alt text" title="cutting" /></p>
+
+<p>We can now take out the board, and clean it using some <strong>acetone</strong>
+<img src="/assets/images/05-08-before-acetone.png" alt="alt text" title="before acetone" /></p>
+
+<p>We do not forget to use a mask and a fume extractor
+<img src="/assets/images/05-15-mask.png" alt="alt text" title="mask" /></p>
+
+<p>After cleaning
+<img src="/assets/images/05-09-after-acetone.png" alt="alt text" title="after acetone" /></p>
+
+<p>Let’s re-test it to make sure
+<img src="/assets/images/05-10-retest.png" alt="alt text" title="retest" /></p>
+
+<p>We now have a functioning board.
+<img src="/assets/images/05-11-finish.png" alt="alt text" title="finish" /></p>
